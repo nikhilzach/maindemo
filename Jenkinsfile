@@ -22,7 +22,7 @@ pipeline {
                         -Dsonar.projectKey=nikhilzach_maindemo \
                         -Dsonar.projectName=nikhilzach_maindemo \
                         -Dsonar.projectVersion=1.0 \
-                        -Dsonar.sources=. \  
+                        -Dsonar.sources=. \
                         -Dsonar.organization=nikhilzach'''
                 }
             }
