@@ -23,6 +23,9 @@ jobs:
           java-version: '17'  # Set the Java version to 17
           distribution: 'temurin'  # Temurin is the official OpenJDK distribution
 
+      - name: Verify Java Version
+        run: java -version
+
       - name: Cache SonarCloud dependencies
         uses: actions/cache@v3
         with:
