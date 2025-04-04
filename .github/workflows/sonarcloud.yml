@@ -3,15 +3,16 @@ name: SonarCloud Analysis
 on:
   push:
     branches:
-      - master
+      - master  # or any other branch you want to monitor
   pull_request:
     branches:
-      - master
+      - master  # or any other branch you want to monitor
 
 jobs:
   sonarcloud:
     name: Analyze on SonarCloud
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -20,10 +21,10 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: 'temurin'  # Updated to 'temurin' (formerly 'adoptopenjdk')
+          distribution: 'temurin'
 
       - name: Cache SonarCloud dependencies
-        uses: actions/cache@v3  # Ensure to use latest version
+        uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar-${{ hashFiles('**/sonar-project.properties') }}
@@ -33,8 +34,5 @@ jobs:
       - name: Run SonarCloud analysis
         uses: sonarsource/sonarcloud-github-action@v1
         with:
-          organization: nikhilzach
-          projectKey: nikhilzach_maindemo
-          projectName: maindemo
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          entryPoint: "sonar-scanner"
+          args: "-Dsonar.projectKey=nikhilzach_maindemo -Dsonar.organization=nikhilzach -Dsonar.login=${{ secrets.SONAR_TOKEN }}"
