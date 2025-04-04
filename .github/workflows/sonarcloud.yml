@@ -3,10 +3,10 @@ name: SonarCloud Analysis
 on:
   push:
     branches:
-      - master  # or any other branch you want to monitor
+      - master  # or your branch name
   pull_request:
     branches:
-      - master  # or any other branch you want to monitor
+      - master  # or your branch name
 
 jobs:
   sonarcloud:
@@ -20,27 +20,13 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
-          java-version: '17'  # Set the Java version to 17
-          distribution: 'temurin'  # Temurin is the official OpenJDK distribution
-
-      - name: Set JAVA_HOME
-        run: |
-          echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
-          echo "Path to Java: $JAVA_HOME"  # Verify the JAVA_HOME
-
-      - name: Verify Java Version
-        run: java -version
-
-      - name: Cache SonarCloud dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar-${{ hashFiles('**/sonar-project.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-sonar-
+          java-version: '17'
+          distribution: 'adoptopenjdk'
 
       - name: Run SonarCloud analysis
         uses: sonarsource/sonarcloud-github-action@v1
         with:
-          entryPoint: "sonar-scanner"
-          args: "-Dsonar.projectKey=nikhilzach_maindemo -Dsonar.organization=nikhilzach -Dsonar.login=${{ secrets.SONAR_TOKEN }}"
+          organization: nikhilzach
+          projectKey: nikhilzach_maindemo
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
