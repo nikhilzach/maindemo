@@ -23,6 +23,11 @@ jobs:
           java-version: '17'  # Set the Java version to 17
           distribution: 'temurin'  # Temurin is the official OpenJDK distribution
 
+      - name: Set JAVA_HOME
+        run: |
+          echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
+          echo "Path to Java: $JAVA_HOME"  # Verify the JAVA_HOME
+
       - name: Verify Java Version
         run: java -version
 
