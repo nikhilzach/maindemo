@@ -20,10 +20,10 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: 'adoptium'  # Change 'adoptopenjdk' to 'adoptium'
+          distribution: 'temurin'  # Updated to 'temurin' (formerly 'adoptopenjdk')
 
       - name: Cache SonarCloud dependencies
-        uses: actions/cache@v3  # Using the latest version
+        uses: actions/cache@v3  # Ensure to use latest version
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar-${{ hashFiles('**/sonar-project.properties') }}
