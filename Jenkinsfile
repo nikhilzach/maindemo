@@ -1,36 +1,39 @@
 pipeline {
     agent any
+
+    environment {
+        SONAR_SCANNER_HOME = tool 'SonarScanner'
+    }
+
     stages {
-        stage('Build') {
+        stage('Checkout Code') {
             steps {
-                echo 'Building the application...'
+                git 'https://github.com/nikhilzach/maindemo.git'
             }
         }
-        stage('Test') {
+
+
+        stage('Archive Site Files') {
             steps {
-                echo 'Running tests...'
+                archiveArtifacts artifacts: '**/*', fingerprint: true
             }
         }
-        
-        stage('code analysis with sonarqube') {
-            environment {
-                scannerHome = tool 'sonar-scanner-7'
-            }
-            steps {
-                withSonarQubeEnv('sonar-server') {
-                    sh '''${scannerHome}/bin/sonar-scanner \
-                        -Dsonar.projectKey=nikhilzach_maindemo \
-                        -Dsonar.projectName=nikhilzach_maindemo \
-                        -Dsonar.projectVersion=1.0 \
-                        -Dsonar.sources=. \
-                        -Dsonar.organization=nikhilzach'''
-                }
-            }
-        }
+
         stage('Deploy') {
             steps {
-                echo 'Deploying the application...'
+                echo 'Deploying static site...'
+                // Example deployment to a remote EC2 instance with Nginx
+                sh 'scp -r * ubuntu@65.2.63.218:/var/www/html'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
         }
     }
 }
