@@ -17,12 +17,12 @@ pipeline {
         }
 
         stage('Deploy') {
-            steps {
-                echo 'Deploying static site...'
-                // Example deployment to a remote EC2 instance with Nginx
-                sh 'scp -r * ubuntu@65.2.63.218:/var/www/html'
-            }
-        }
+    steps {
+        echo 'Deploying static site...'
+        sh 'sudo cp -r * /var/www/html'
+    }
+}
+
     }
 
     post {
