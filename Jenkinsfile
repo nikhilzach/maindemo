@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        SONAR_HOST_URL = 'http://localhost:9000'
+        SONAR_TOKEN = credentials('SONAR_TOKEN')
+    }
 
     stages {
         stage('Checkout Code') {
@@ -9,6 +13,18 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                echo 'Running SonarQube analysis...'
+                sh '''
+                    sonar-scanner \
+                    -Dsonar.projectKey=maindemo \
+                    -Dsonar.sources=. \
+                    -Dsonar.host.url=$SONAR_HOST_URL \
+                    -Dsonar.login=$SONAR_TOKEN
+                '''
+            }
+        }
 
         stage('Archive Site Files') {
             steps {
@@ -17,12 +33,11 @@ pipeline {
         }
 
         stage('Deploy') {
-    steps {
-        echo 'Deploying static site...'
-        sh 'cp -r * /var/www/html'
-    }
-}
-
+            steps {
+                echo 'Deploying static site...'
+                sh 'cp -r * /var/www/html'
+            }
+        }
     }
 
     post {
