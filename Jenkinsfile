@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         SONAR_HOST_URL = 'http://13.233.97.56:9000/'
+        IMAGE_NAME = '65.2.63.218:8082/maindemo:latest'
     }
 
     stages {
@@ -27,16 +28,25 @@ pipeline {
             }
         }
 
-        stage('Archive Site Files') {
+        stage('Docker Login & Pull') {
             steps {
-                archiveArtifacts artifacts: '**/*', fingerprint: true
+                withCredentials([usernamePassword(credentialsId: 'NEXUS_CREDS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh '''
+                        echo "$PASSWORD" | docker login 65.2.63.218:8082 -u "$USERNAME" --password-stdin
+                        docker pull $IMAGE_NAME
+                    '''
+                }
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy Docker Container') {
             steps {
-                echo 'Deploying static site...'
-                sh 'cp -r * /var/www/html'
+                echo 'Deploying Docker container...'
+                sh '''
+                    docker stop maindemo || true
+                    docker rm maindemo || true
+                    docker run -d --name maindemo -p 8085:80 $IMAGE_NAME
+                '''
             }
         }
     }
