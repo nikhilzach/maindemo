@@ -19,7 +19,7 @@ pipeline {
         stage('Deploy') {
     steps {
         echo 'Deploying static site...'
-        sh 'sudo cp -r * /var/www/html'
+        sh 'cp -r * /var/www/html'
     }
 }
 
