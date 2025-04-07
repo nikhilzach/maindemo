@@ -28,6 +28,19 @@ pipeline {
             }
         }
 
+
+        stage('Build & Push Docker Image') {
+    steps {
+        withCredentials([usernamePassword(credentialsId: 'NEXUS_CREDS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            sh '''
+                docker build -t 43.204.149.45:8082/maindemo:latest .
+                echo "$PASSWORD" | docker login 43.204.149.45:8082 -u "$USERNAME" --password-stdin
+                docker push 43.204.149.45:8082/maindemo:latest
+            '''
+        }
+    }
+}
+
         stage('Docker Login & Pull') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'NEXUS_CREDS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
