@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SONAR_HOST_URL = '65.2.29.180:9000'
+        SONAR_HOST_URL = 'http://65.2.29.180:9000'
         IMAGE_NAME = '3.108.236.191:8082/maindemo:latest'
     }
 
