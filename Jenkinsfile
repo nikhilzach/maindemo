@@ -64,16 +64,20 @@ pipeline {
         }
 stage('Deploy with Helm') {
     steps {
-        sshagent(['kube-master-ssh']) {
-            sh '''
-                ssh -o StrictHostKeyChecking=no ubuntu@13.201.83.45 '
-                    cd /home/ubuntu/maindemo-chart &&
-                    helm upgrade --install maindemo . --namespace default
-                '
-            '''
+        script {
+            sshagent(['kube-master-ssh']) {
+                sh """
+                    ssh -o StrictHostKeyChecking=no ubuntu@13.201.83.45 << 'EOF'
+                        set -e
+                        cd /home/ubuntu/maindemo-chart
+                        helm upgrade --install maindemo . --namespace default
+                    EOF
+                """
+            }
         }
     }
 }
+
     }
 
     post {
