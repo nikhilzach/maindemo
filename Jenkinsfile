@@ -70,7 +70,7 @@ stage('Deploy with Helm') {
                     set -e
                     cd /home/ubuntu/maindemo-chart
                     helm upgrade --install maindemo . --namespace default
-                    NODE_PORT=\\$(kubectl get --namespace default -o jsonpath=\\\"{.spec.ports[0].nodePort}\\\" services maindemo-maindemo-chart)
+                    NODE_PORT=\\$(kubectl get --namespace default -o jsonpath=\\\"{.spec.ports[0].nodePort}\\\" services maindemo-service)
                     NODE_IP=\\$(kubectl get nodes --namespace default -o jsonpath=\\\"{.items[0].status.addresses[0].address}\\\")
                     echo http://\\$NODE_IP:\\$NODE_PORT
                 "
