@@ -131,5 +131,4 @@ As part of my DevOps training, I successfully built a complete CI/CD pipeline pr
 
 ---
 
-Let me know if you'd like this split into separate Word or PDF documents for sharing, or turned into slides.
 
