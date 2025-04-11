@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         SONAR_HOST_URL = 'http://65.2.29.180:9000'
-        IMAGE_NAME = '3.108.236.191:8082/maindemo:latest'
+        IMAGE_NAME = '13.203.129.251:8082/maindemo:latest'
     }
 
     stages {
@@ -33,9 +33,9 @@ pipeline {
     steps {
         withCredentials([usernamePassword(credentialsId: 'NEXUS_CREDS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             sh '''
-                docker build -t 3.108.236.191:8082/maindemo:latest .
-                echo "$PASSWORD" | docker login 3.108.236.191:8082 -u "$USERNAME" --password-stdin
-                docker push 3.108.236.191:8082/maindemo:latest
+                docker build -t 13.203.129.251:8082/maindemo:latest .
+                echo "$PASSWORD" | docker login 13.203.129.251:8082 -u "$USERNAME" --password-stdin
+                docker push 13.203.129.251:8082/maindemo:latest
             '''
         }
     }
@@ -45,7 +45,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'NEXUS_CREDS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh '''
-                        echo "$PASSWORD" | docker login 3.108.236.191:8082 -u "$USERNAME" --password-stdin
+                        echo "$PASSWORD" | docker login 13.203.129.251:8082 -u "$USERNAME" --password-stdin
                         docker pull $IMAGE_NAME
                     '''
                 }
