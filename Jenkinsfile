@@ -66,19 +66,19 @@ stage('Deploy with Helm') {
     steps {
         sshagent(['kube-master-ssh']) {
             sh '''
-                ssh -o StrictHostKeyChecking=no ubuntu@13.201.83.45 << EOF
+                ssh -o StrictHostKeyChecking=no ubuntu@13.201.83.45 "
                     set -e
                     cd /home/ubuntu/maindemo-chart
                     helm upgrade --install maindemo . --namespace default
-
-                    NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services maindemo-maindemo-chart)
-                    NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")
-                    echo http://$NODE_IP:$NODE_PORT
-                EOF
+                    NODE_PORT=\\$(kubectl get --namespace default -o jsonpath=\\\"{.spec.ports[0].nodePort}\\\" services maindemo-maindemo-chart)
+                    NODE_IP=\\$(kubectl get nodes --namespace default -o jsonpath=\\\"{.items[0].status.addresses[0].address}\\\")
+                    echo http://\\$NODE_IP:\\$NODE_PORT
+                "
             '''
         }
     }
 }
+
 
 
 
