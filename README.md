@@ -1,7 +1,7 @@
 # DevOps End-to-End CI/CD Project Documentation
 
 ## Project Overview
-As part of my DevOps training, I successfully built a complete CI/CD pipeline project from scratch using various DevOps tools and technologies. This documentation outlines the entire process, practical steps, tools used, configuration details, and potential interview/demo questions.
+As part of my DevOps training, I successfully built a complete CI/CD pipeline project from scratch using various DevOps tools and technologies. This documentation outlines the entire process, practical steps, tools used, configuration details.
 
 ---
 
