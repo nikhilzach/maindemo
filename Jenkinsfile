@@ -29,7 +29,7 @@ pipeline {
         }
 
 
-        stage('Build & Push Docker Image') {
+        stage('Build & Push Image to Nexus') {
     steps {
         withCredentials([usernamePassword(credentialsId: 'NEXUS_CREDS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             sh '''
